@@ -160,6 +160,10 @@ app.get('/', async (req, res) => {
     const url = req.query.url
 
     let model = await getMetaTags(url); // Setze hier deine URL ein
+
+    // return json. This is the response to the client
+    // set header to application/json
+    res.setHeader('Content-Type', 'application/json');
     res.send( JSON.stringify(model) );
 })
 
