@@ -155,16 +155,25 @@ const getMetaTags = async (url) => {
 
 // Read URL Parameter 'url' using req.query
 app.get('/', async (req, res) => {
+    try {
+        // Get URL from URL Parameter 'url'
+        const url = req?.query?.url || '';
+        if (!url) {
+            throw new Error('URL is missing');
+        }
 
-    // Get URL from URL Parameter 'url'
-    const url = req.query.url
+        let model = await getMetaTags(url); // Setze hier deine URL ein
 
-    let model = await getMetaTags(url); // Setze hier deine URL ein
+        // return json. This is the response to the client
+        // set header to application/json
+        res.setHeader('Content-Type', 'application/json');
+        res.send( JSON.stringify(model) );
 
-    // return json. This is the response to the client
-    // set header to application/json
-    res.setHeader('Content-Type', 'application/json');
-    res.send( JSON.stringify(model) );
+    } catch (e) {
+        console.log(e);
+        res.setHeader('Content-Type', 'application/json');
+        res.send( JSON.stringify( {error: e}) );
+    }
 })
 
 app.listen(port, () => {
