@@ -49,7 +49,20 @@ function getModel() {
 
 
 const fetchPage = async (url) => {
-    const result = await axios.get(url);
+
+    // set timeout to 2 seconds
+    // set browser agent to Chrome
+    const timeout = 2000;
+    const headers = {
+        'User-Agent': 'Chrome'
+    };
+
+    const options = {
+        headers: headers,
+        timeout: timeout
+    };
+
+    const result = await axios.get(url, options);
     return cheerio.load(result.data);
 };
 
@@ -159,8 +172,10 @@ app.get('/', async (req, res) => {
         // Get URL from URL Parameter 'url'
         const url = req?.query?.url || '';
         if (!url) {
+            console.error('URL is missing');
             throw new Error('URL is missing');
         }
+        console.log('URL', url);
 
         let model = await getMetaTags(url); // Setze hier deine URL ein
 
