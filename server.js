@@ -117,6 +117,7 @@ const addTwitterMeta = ($, model) => {
         model.host = $('meta[name="twitter:site"]').attr('content');
     }
 }
+
 // If member is not set, set it to the Facebook value
 const addFacebookMeta = ($, model) => {
 
@@ -124,6 +125,12 @@ const addFacebookMeta = ($, model) => {
 
 // If member is not set, set it to the meta [property="og:"]: values
 const addOGMeta = ($, model) => {
+    if ( ! model.title ) {
+        model.title = $('meta[property="og:title"]').attr('content');
+    }
+    if ( ! model.description ) {
+        model.description = $('meta[property="og:description"]').attr('content');
+    }
     if ( ! model.img_w ) {
         model.img_w = $('meta[property="og:image:width"]').attr('content');
     }
@@ -168,24 +175,27 @@ const getMetaTags = async (url) => {
 
 // Read URL Parameter 'url' using req.query
 app.get('/', async (req, res) => {
+    const dateTimeNowIso = new Date().toISOString();
     try {
         // Get URL from URL Parameter 'url'
         const url = req?.query?.url || '';
         if (!url) {
-            console.error('URL is missing');
+            console.error(dateTimeNowIso, 'URL is missing');
             throw new Error('URL is missing');
         }
-        console.log('URL', url);
+
+        console.log(dateTimeNowIso ,'URL', url);
 
         let model = await getMetaTags(url); // Setze hier deine URL ein
 
-        // return json. This is the response to the client
         // set header to application/json
         res.setHeader('Content-Type', 'application/json');
+
+        // return json. This is the response to the client
         res.send( JSON.stringify(model) );
 
     } catch (e) {
-        console.log(e);
+        console.log(dateTimeNowIso, e);
         res.setHeader('Content-Type', 'application/json');
         res.send( JSON.stringify( {error: e}) );
     }
