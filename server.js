@@ -207,4 +207,4 @@ app.listen(port, () => {
 })
 
 // ======================= shutdown
-listenOnKeyControlC( process, server );
+listenOnKeyControlC( process, app );
