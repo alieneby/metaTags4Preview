@@ -2,6 +2,7 @@ const express = require('express')
 
 const cheerio = require('cheerio');
 const axios = require('axios');
+const {listenOnKeyControlC} = require('./controlC');
 
 /*
 This is a simple NodeJS Server that returns the meta tags of a given URL.
@@ -204,3 +205,6 @@ app.get('/', async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+// ======================= shutdown
+listenOnKeyControlC( process, server );

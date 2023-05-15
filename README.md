@@ -7,11 +7,11 @@
 
 # BUILD DOCKER IMAGE
 ```bash
-docker build -t metaTags4Preview/20230515 .
+docker build -t meta_tags_4_preview/20230515 .
 ```
 # START CONTAINER
 ```bash
-docker run -it -v $(pwd):/usr/src/app/out --name metaTags4Preview -p 3000:3000 --rm metaTags4Preview/20230515
+docker run -it -v $(pwd):/usr/src/app/out --name meta_tags_4_preview -p 3000:3000 --rm meta_tags_4_preview/20230515
 ```
 
 # HTTP REQUEST
